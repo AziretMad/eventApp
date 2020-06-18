@@ -34,6 +34,6 @@ public class Place {
     BigDecimal rentalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "e_user_id", referencedColumnName = "id")
     User user;
 }

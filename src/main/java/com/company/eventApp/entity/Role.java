@@ -22,6 +22,6 @@ public class Role {
     String roleName;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "e_user_id", referencedColumnName = "id")
     User user;
 }

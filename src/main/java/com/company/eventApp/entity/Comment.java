@@ -24,7 +24,7 @@ public class Comment {
     String text;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "e_user")
     User user;
 
     @ManyToOne

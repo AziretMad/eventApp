@@ -33,6 +33,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/login/{login}")
+    public ResponseEntity getByLogin(@RequestParam("login") String login){
+        try{
+            return new ResponseEntity(userService.getByLogin(login), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity create(@RequestBody UserDTO userDTO){
         try {

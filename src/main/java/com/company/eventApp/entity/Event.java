@@ -49,6 +49,6 @@ public class Event {
     Status status;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "e_user_id", referencedColumnName = "id")
     User user;
 }
