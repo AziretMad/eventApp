@@ -37,11 +37,6 @@ public class EventServiceImpl implements EventService {
                 .user(userService.getById(entity.getUserId()))
                 .build();
         List<TagDTO> tagDTOs = entity.getTagDTOS();
-        List<Tag> tags = new ArrayList<>();
-        for(TagDTO tagDTO : tagDTOs){
-            tags.add(tagService.getByName(tagDTO.getName()));
-        }
-        event.setTags(tags);
         return eventRepo.save(event);
     }
 

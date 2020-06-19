@@ -30,11 +30,6 @@ public class PlaceServiceImpl implements PlaceService {
                 .address(entity.getAddress())
                 .build();
         List<PlaceTagDTO> placeTagDTOS = new ArrayList<>();
-        List<PlaceTag> placeTags = new ArrayList<>();
-        for(PlaceTagDTO p : placeTagDTOS){
-            placeTags.add(placeTagService.getByName(p.getName()));
-        }
-        place.setPlaceTags(placeTags);
         return placeRepo.save(place);
     }
 

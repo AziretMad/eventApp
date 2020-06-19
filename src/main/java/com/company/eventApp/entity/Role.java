@@ -4,9 +4,11 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "e_role")
+@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,4 +22,12 @@ public class Role {
 
     @Column(name = "role_name")
     String roleName;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "roles")
+    Set<User> users = new HashSet<>();
 }

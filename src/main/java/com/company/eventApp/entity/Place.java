@@ -5,10 +5,12 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "e_place")
+@Table(name = "place")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,9 +25,15 @@ public class Place {
     @Column(name = "name")
     String name;
 
-    @ManyToMany
-    @JoinColumn(name = "place_tag")
-    List<PlaceTag> placeTags;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "place_placeTags",
+            joinColumns = { @JoinColumn(name = "place_id") },
+            inverseJoinColumns = { @JoinColumn(name = "placeTag_id") })
+    Set<PlaceTag> placeTags = new HashSet<>();
 
     @Column(name = "address")
     String address;

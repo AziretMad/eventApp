@@ -22,7 +22,7 @@ public class Rating {
     Integer rating;
 
     @ManyToOne
-    @JoinColumn(name = "e_user_id")
+    @JoinColumn(name = "user_id")
     User user;
 
     @ManyToOne

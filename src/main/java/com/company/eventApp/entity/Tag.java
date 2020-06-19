@@ -4,9 +4,11 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "e_tag")
+@Table(name = "tags")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,4 +22,12 @@ public class Tag {
 
     @Column(name = "name", unique = true)
     String name;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "tags")
+    Set<Event> events = new HashSet<>();
 }

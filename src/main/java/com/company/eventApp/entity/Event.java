@@ -6,10 +6,12 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "e_event")
+@Table(name = "event")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -24,9 +26,15 @@ public class Event {
     @Column(name = "name")
     String name;
 
-    @ManyToMany
-    @JoinColumn(name = "tags")
-    List<Tag> tags;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "event_tags",
+            joinColumns = { @JoinColumn(name = "event_id") },
+            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    Set<Tag> tags = new HashSet<>();
 
     @Column(name = "description")
     String description;

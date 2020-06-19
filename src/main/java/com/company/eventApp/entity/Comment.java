@@ -24,11 +24,11 @@ public class Comment {
     String text;
 
     @ManyToOne
-    @JoinColumn(name = "e_user")
+    @JoinColumn(name = "user_id")
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "event")
+    @JoinColumn(name = "event_id")
     Event event;
 
     @CreatedDate

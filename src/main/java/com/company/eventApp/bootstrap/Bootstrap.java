@@ -13,9 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -23,14 +21,8 @@ public class Bootstrap implements CommandLineRunner {
     UserServiceImpl userService;
     @Autowired
     RoleServiceImpl roleService;
-    @Override
+
     public void run(String... args) throws Exception {
-        Role role = Role.builder()
-                .build();
-        User user = User.builder()
-                .login("user")
-                .password("password")
-                .build();
 
     }
 }
