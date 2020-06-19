@@ -5,6 +5,7 @@ import com.company.eventApp.service.PlaceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ public class PlaceController {
     @Autowired
     private PlaceServiceImpl placeService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/all")
     public ResponseEntity getAll() {
         try {
@@ -31,6 +33,7 @@ public class PlaceController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/add")
     public ResponseEntity create(@RequestBody PlaceDTO placeDTO) {
         try {
@@ -40,6 +43,7 @@ public class PlaceController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@RequestParam("id") Long id) {
         try {

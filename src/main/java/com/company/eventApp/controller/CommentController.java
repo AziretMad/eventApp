@@ -4,6 +4,7 @@ import com.company.eventApp.dto.CommentDTO;
 import com.company.eventApp.service.CommentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private CommentServiceImpl commentService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/all")
     public ResponseEntity getAll() {
         try {
@@ -20,6 +22,7 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity getById(@RequestParam("id") Long id) {
         try {
@@ -29,6 +32,7 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping("/add")
     public ResponseEntity create(@RequestBody CommentDTO commentDTO) {
         try {
@@ -38,6 +42,7 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@RequestParam("id") Long id) {
         try {

@@ -6,6 +6,7 @@ import com.company.eventApp.service.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ public class RoleController {
     @Autowired
     private RoleServiceImpl roleService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity getAll() {
         try {
@@ -23,6 +25,7 @@ public class RoleController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity getById(@RequestParam("id") Long id) {
         try {
@@ -32,6 +35,7 @@ public class RoleController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity create(@RequestBody RoleDTO roleDTO) {
         try {
@@ -42,6 +46,7 @@ public class RoleController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@RequestParam("id") Long id) {
         try {

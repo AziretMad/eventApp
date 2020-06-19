@@ -5,6 +5,7 @@ import com.company.eventApp.service.EventServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ public class EventController {
     @Autowired
     private EventServiceImpl eventService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity getAll() {
         try {
@@ -31,6 +33,7 @@ public class EventController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/add")
     public ResponseEntity create(@RequestBody EventDTO eventDTO) {
         try {
@@ -40,6 +43,7 @@ public class EventController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@RequestParam("id") Long id) {
         try {
