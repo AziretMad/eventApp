@@ -9,9 +9,7 @@ import com.company.eventApp.service.interfaces.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
@@ -22,14 +20,29 @@ public class PlaceServiceImpl implements PlaceService {
     private PlaceTagServiceImpl placeTagService;
 
     @Override
-    public Place create(PlaceDTO entity) throws Exception {
+    public Place create(PlaceDTO placeDTO) throws Exception {
         Place place = Place.builder()
-                .name(entity.getName())
-                .address(entity.getAddress())
-                .rentalPrice(entity.getRentalPrice())
-                .address(entity.getAddress())
+                .name(placeDTO.getName())
+                .address(placeDTO.getAddress())
+                .rentalPrice(placeDTO.getRentalPrice())
+                .address(placeDTO.getAddress())
                 .build();
-        List<PlaceTagDTO> placeTagDTOS = new ArrayList<>();
+        Set<String> placeTagNames = new HashSet<>();
+        Set<PlaceTag> placeTags = new HashSet<>();
+        for(String s : placeTagNames){
+            placeTags.add(placeTagService.getByName(s));
+        }
+        place.setPlaceTags(placeTags);
+        Set<Place> places = new HashSet<>();
+        places.add(place);
+        for (PlaceTag placeTag : placeTags){
+            if(placeTag.getPlaces() == null){
+                placeTag.getPlaces().add(place);
+            }
+            else{
+                placeTag.setPlaces(places);
+            }
+        }
         return placeRepo.save(place);
     }
 

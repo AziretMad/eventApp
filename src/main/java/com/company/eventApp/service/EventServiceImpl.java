@@ -10,9 +10,7 @@ import com.company.eventApp.service.interfaces.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -26,17 +24,32 @@ public class EventServiceImpl implements EventService {
     private UserServiceImpl userService;
 
     @Override
-    public Event create(EventDTO entity) throws Exception {
+    public Event create(EventDTO eventDTO) throws Exception {
         Event event = Event.builder()
-                .date(entity.getDate())
-                .description(entity.getDescription())
-                .picture(entity.getPicture())
-                .video(entity.getVideo())
+                .date(eventDTO.getDate())
+                .description(eventDTO.getDescription())
+                .picture(eventDTO.getPicture())
+                .video(eventDTO.getVideo())
                 .status(Status.PLANNED)
-                .name(entity.getName())
-                .user(userService.getById(entity.getUserId()))
+                .name(eventDTO.getName())
+                .user(userService.getById(eventDTO.getUserId()))
                 .build();
-        List<TagDTO> tagDTOs = entity.getTagDTOS();
+        Set<String> tagNames = eventDTO.getTags();
+        Set<Tag> tags = new HashSet<>();
+        for (String s : tagNames){
+            tags.add(tagService.getByName(s));
+        }
+        event.setTags(tags);
+        Set<Event> events = new HashSet<>();
+        events.add(event);
+        for(Tag tag : tags){
+            if(tag.getEvents() == null){
+                tag.setEvents(events);
+            }
+            else {
+                tag.getEvents().add(event);
+            }
+        }
         return eventRepo.save(event);
     }
 

@@ -39,6 +39,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .telephone(userDTO.getTelephone())
                 .build();
+        Set<Role> roles = new HashSet<>();
+        Set<String> roleNames = userDTO.getRoleNames();
+        for (String s : roleNames){
+            roles.add(roleRepo.findByRoleName(s));
+        }
+        user.setRoles(roles);
+        Set<User> users = new HashSet<>();
+        users.add(user);
+        for (Role role : roles){
+            if(role.getUsers() == null){
+                role.setUsers(users);
+            }
+            else {
+                role.getUsers().add(user);
+            }
+        }
         return userRepo.save(user);
     }
 

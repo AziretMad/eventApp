@@ -21,8 +21,41 @@ public class Bootstrap implements CommandLineRunner {
     UserServiceImpl userService;
     @Autowired
     RoleServiceImpl roleService;
+    @Autowired
+    UserRepo userRepo;
+    @Autowired
+    RoleRepo roleRepo;
 
     public void run(String... args) throws Exception {
+        userRepo.deleteAllInBatch();
+        roleRepo.deleteAllInBatch();
+
+        User user = User.builder()
+                .login("user")
+                .password("password")
+                .build();
+
+        Role role = Role.builder()
+                .roleName("ADMIN")
+                .build();
+
+        Role role1 = Role.builder()
+                .roleName("USER").build();
+
+        ;
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        roles.add(role1);
+
+        user.setRoles(roles);
+
+        Set<User> users = new HashSet<>();
+        users.add(user);
+
+        role.setUsers(users);
+        role1.setUsers(users);
+
+        userRepo.save(user);
 
     }
 }

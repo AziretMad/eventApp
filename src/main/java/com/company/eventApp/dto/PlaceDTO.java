@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.util.List;
 public class PlaceDTO {
     Long id;
     String name;
-    List<PlaceTagDTO> placeTagDTOS;
+    Set<String> placeTags;
     String address;
     BigDecimal rentalPrice;
     UserDTO userDTO;

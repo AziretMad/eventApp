@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import java.util.List;
 public class EventDTO {
     Long id;
     String name;
-    List<TagDTO> tagDTOS;
+    Set<String> tags;
     String description;
     String picture;
     String video;
