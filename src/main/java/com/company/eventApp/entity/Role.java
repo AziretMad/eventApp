@@ -20,8 +20,4 @@ public class Role {
 
     @Column(name = "role_name")
     String roleName;
-
-    @ManyToOne
-    @JoinColumn(name = "e_user_id", referencedColumnName = "id")
-    User user;
 }

@@ -22,7 +22,6 @@ public class RoleServiceImpl implements RoleService {
     public Role create(RoleDTO entity) throws Exception {
         Role role = Role.builder()
                 .roleName(entity.getRoleName())
-                .user(userService.getById(entity.getUserId()))
                 .build();
         return roleRepo.save(role);
     }
