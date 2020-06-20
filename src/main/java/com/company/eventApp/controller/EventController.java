@@ -53,4 +53,13 @@ public class EventController {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/soon")
+    public ResponseEntity getSoonEvents(){
+        try {
+            return new ResponseEntity(eventService.getSoonEvents(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

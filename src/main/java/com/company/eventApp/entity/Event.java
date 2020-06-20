@@ -1,6 +1,7 @@
 package com.company.eventApp.entity;
 
 import com.company.eventApp.enums.Status;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -26,7 +27,7 @@ public class Event {
     @Column(name = "name")
     String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -34,6 +35,7 @@ public class Event {
     @JoinTable(name = "event_tags",
             joinColumns = { @JoinColumn(name = "event_id") },
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    @JsonManagedReference
     Set<Tag> tags = new HashSet<>();
 
     @Column(name = "description")

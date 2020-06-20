@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "e_comment")
+@Table(name = "comment")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -24,11 +24,11 @@ public class Comment {
     String text;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     Event event;
 
     @CreatedDate

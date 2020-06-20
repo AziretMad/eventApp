@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "e_rating")
+@Table(name = "rating")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,10 +22,10 @@ public class Rating {
     Integer rating;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     Event event;
 }

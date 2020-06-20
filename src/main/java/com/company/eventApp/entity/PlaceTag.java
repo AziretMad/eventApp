@@ -1,5 +1,6 @@
 package com.company.eventApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -29,5 +30,6 @@ public class PlaceTag {
                     CascadeType.MERGE
             },
             mappedBy = "placeTags")
+    @JsonBackReference
     Set<Place> places = new HashSet<>();
 }

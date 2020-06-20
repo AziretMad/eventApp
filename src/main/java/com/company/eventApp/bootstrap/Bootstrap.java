@@ -10,6 +10,7 @@ import com.company.eventApp.service.UserServiceImpl;
 import com.company.eventApp.service.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ public class Bootstrap implements CommandLineRunner {
     RoleRepo roleRepo;
 
     public void run(String... args) throws Exception {
+
         userRepo.deleteAllInBatch();
         roleRepo.deleteAllInBatch();
 
@@ -42,20 +44,21 @@ public class Bootstrap implements CommandLineRunner {
         Role role1 = Role.builder()
                 .roleName("USER").build();
 
-        ;
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        roles.add(role1);
-
-        user.setRoles(roles);
-
-        Set<User> users = new HashSet<>();
-        users.add(user);
-
-        role.setUsers(users);
-        role1.setUsers(users);
-
-        userRepo.save(user);
+        roleRepo.save(role);
+        roleRepo.save(role1);
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role);
+//        roles.add(role1);
+//
+//        user.setRoles(roles);
+//
+//        Set<User> users = new HashSet<>();
+//        users.add(user);
+//
+//        role.setUsers(users);
+//        role1.setUsers(users);
+//
+//        userRepo.save(user);
 
     }
 }

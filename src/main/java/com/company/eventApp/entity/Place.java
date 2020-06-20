@@ -1,5 +1,6 @@
 package com.company.eventApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,7 +26,7 @@ public class Place {
     @Column(name = "name")
     String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -33,6 +34,7 @@ public class Place {
     @JoinTable(name = "place_placeTags",
             joinColumns = { @JoinColumn(name = "place_id") },
             inverseJoinColumns = { @JoinColumn(name = "placeTag_id") })
+    @JsonManagedReference
     Set<PlaceTag> placeTags = new HashSet<>();
 
     @Column(name = "address")
@@ -42,6 +44,6 @@ public class Place {
     BigDecimal rentalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "e_user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 }

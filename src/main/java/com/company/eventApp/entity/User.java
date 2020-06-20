@@ -1,5 +1,7 @@
 package com.company.eventApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ManyToAny;
@@ -35,10 +37,11 @@ public class User {
     @Column(name = "telephone")
     String telephone;
 
+    @JsonIgnore
     @Column(name = "is_active")
     Integer isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -46,5 +49,6 @@ public class User {
     @JoinTable(name = "user_roles",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 }

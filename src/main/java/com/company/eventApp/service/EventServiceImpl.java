@@ -53,6 +53,11 @@ public class EventServiceImpl implements EventService {
         return eventRepo.save(event);
     }
 
+    public List<Event> getSoonEvents(){
+        Date date = new Date();
+        return eventRepo.getSoonEvents(date);
+    }
+
     @Override
     public Event getById(Long id) {
         Optional<Event> event = eventRepo.findById(id);
