@@ -38,6 +38,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Comment update(Comment entity) {
+        return commentRepo.save(entity);
+    }
+
+    @Override
     public List<Comment> getAll() {
         return commentRepo.findAll();
     }

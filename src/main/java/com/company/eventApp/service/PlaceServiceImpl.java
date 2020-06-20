@@ -4,6 +4,8 @@ import com.company.eventApp.entity.Place;
 import com.company.eventApp.entity.PlaceTag;
 import com.company.eventApp.dto.PlaceDTO;
 import com.company.eventApp.dto.PlaceTagDTO;
+import com.company.eventApp.entity.Role;
+import com.company.eventApp.entity.User;
 import com.company.eventApp.repository.PlaceRepo;
 import com.company.eventApp.service.interfaces.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,18 @@ public class PlaceServiceImpl implements PlaceService {
     @Autowired
     private PlaceTagServiceImpl placeTagService;
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @Override
     public Place create(PlaceDTO placeDTO) throws Exception {
+        User user = userService.getById(placeDTO.getId());
         Place place = Place.builder()
                 .name(placeDTO.getName())
                 .address(placeDTO.getAddress())
                 .rentalPrice(placeDTO.getRentalPrice())
                 .address(placeDTO.getAddress())
+                .user(user)
                 .build();
         Set<String> placeTagNames = new HashSet<>();
         Set<PlaceTag> placeTags = new HashSet<>();
@@ -43,6 +50,11 @@ public class PlaceServiceImpl implements PlaceService {
                 placeTag.setPlaces(places);
             }
         }
+        Role role = Role.builder()
+                .roleName("OWNER")
+                .build();
+        user.getRoles().add(role);
+        userService.update(user);
         return placeRepo.save(place);
     }
 
@@ -55,6 +67,11 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public List<Place> getAll() {
         return placeRepo.findAll();
+    }
+
+    @Override
+    public Place update(Place entity) {
+        return placeRepo.save(entity);
     }
 
     @Override

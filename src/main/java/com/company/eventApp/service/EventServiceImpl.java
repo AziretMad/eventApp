@@ -65,6 +65,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Event update(Event entity) {
+        return eventRepo.save(entity);
+    }
+
+    @Override
     public List<Event> getAll() {
         return eventRepo.findAll();
     }

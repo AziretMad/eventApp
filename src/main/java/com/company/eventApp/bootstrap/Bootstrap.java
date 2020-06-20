@@ -26,6 +26,10 @@ public class Bootstrap implements CommandLineRunner {
     UserRepo userRepo;
     @Autowired
     RoleRepo roleRepo;
+    @Autowired
+    TagRepo tagRepo;
+    @Autowired
+    PlaceTagRepo placeTagRepo;
 
     public void run(String... args) throws Exception {
 
@@ -44,8 +48,27 @@ public class Bootstrap implements CommandLineRunner {
         Role role1 = Role.builder()
                 .roleName("USER").build();
 
+        Role role2 = Role.builder()
+                .roleName("OWNER").build();
+
         roleRepo.save(role);
         roleRepo.save(role1);
+        Tag tag = Tag.builder()
+                .name("sport")
+                .build();
+        Tag tag1 = Tag.builder()
+                .name("basketball")
+                .build();
+        tagRepo.save(tag);
+        tagRepo.save(tag1);
+        PlaceTag placeTag = PlaceTag.builder()
+                .name("sports ground")
+                .build();
+        PlaceTag placeTag1 = PlaceTag.builder()
+                .name("basketball playground").build();
+        placeTagRepo.save(placeTag);
+        placeTagRepo.save(placeTag1);
+
 //        Set<Role> roles = new HashSet<>();
 //        roles.add(role);
 //        roles.add(role1);

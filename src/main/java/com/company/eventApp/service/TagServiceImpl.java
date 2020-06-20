@@ -39,6 +39,11 @@ public class TagServiceImpl implements TagService {
         tagRepo.deleteById(id);
     }
 
+    @Override
+    public Tag update(Tag entity) {
+        return tagRepo.save(entity);
+    }
+
     public Tag getByName(String name){
         return tagRepo.getByName(name);
     }

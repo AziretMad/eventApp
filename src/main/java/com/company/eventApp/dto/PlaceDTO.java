@@ -19,5 +19,5 @@ public class PlaceDTO {
     Set<String> placeTags;
     String address;
     BigDecimal rentalPrice;
-    UserDTO userDTO;
+    Long userId;
 }

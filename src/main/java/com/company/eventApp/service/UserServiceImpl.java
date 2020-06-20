@@ -88,6 +88,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepo.deleteById(id);
     }
 
+    @Override
+    public User update(User entity) {
+        return userRepo.save(entity);
+    }
+
     public User getByLogin(String login){
         return userRepo.findByLogin(login);
     }

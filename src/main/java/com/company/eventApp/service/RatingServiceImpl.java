@@ -46,6 +46,11 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    public Rating update(Rating entity) {
+        return ratingRepo.save(entity);
+    }
+
+    @Override
     public void delete(Long id) {
         ratingRepo.deleteById(id);
     }

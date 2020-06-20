@@ -39,6 +39,11 @@ public class PlaceTagServiceImpl implements PlaceTagService {
         placeTagRepo.deleteById(id);
     }
 
+    @Override
+    public PlaceTag update(PlaceTag entity) {
+        return placeTagRepo.save(entity);
+    }
+
     public PlaceTag getByName(String name){
         return placeTagRepo.getByName(name);
     }
