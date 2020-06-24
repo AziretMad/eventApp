@@ -17,11 +17,12 @@ import java.util.Set;
 public class EventDTO {
     Long id;
     String name;
-    Set<String> tags;
+    Set<TagDTO> tagDTOs;
     String description;
     String picture;
     String video;
     Date date;
+    String place;
     Status status;
     Long UserId;
 }

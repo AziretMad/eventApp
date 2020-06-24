@@ -78,6 +78,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user.get();
     }
 
+    public UserDTO wrapDTO(User user) {
+        UserDTO userDTO = UserDTO.builder()
+                .login(user.getLogin())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .telephone(user.getTelephone())
+                .build();
+        Set<Role> roles = user.getRoles();
+        Set<String> roleNames = new HashSet<>();
+        for(Role role : roles){
+            roleNames.add(role.getRoleName());
+        }
+        userDTO.setRoles(roleNames);
+        return userDTO;
+    }
+
     @Override
     public List<User> getAll(){
         return userRepo.findAll();

@@ -78,4 +78,8 @@ public class PlaceServiceImpl implements PlaceService {
     public void delete(Long id) {
         placeRepo.deleteById(id);
     }
+
+    public Place getByName(String name){
+        return placeRepo.getByName(name);
+    }
 }

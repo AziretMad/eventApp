@@ -1,11 +1,14 @@
 package com.company.eventApp.bootstrap;
 
+import com.company.eventApp.dto.EventDTO;
 import com.company.eventApp.dto.PlaceTagDTO;
 import com.company.eventApp.dto.RoleDTO;
 import com.company.eventApp.dto.UserDTO;
 import com.company.eventApp.entity.*;
 import com.company.eventApp.repository.*;
+import com.company.eventApp.service.EventServiceImpl;
 import com.company.eventApp.service.RoleServiceImpl;
+import com.company.eventApp.service.TagServiceImpl;
 import com.company.eventApp.service.UserServiceImpl;
 import com.company.eventApp.service.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +33,19 @@ public class Bootstrap implements CommandLineRunner {
     TagRepo tagRepo;
     @Autowired
     PlaceTagRepo placeTagRepo;
+    @Autowired
+    PlaceRepo placeRepo;
+    @Autowired
+    EventServiceImpl eventService;
+    @Autowired
+    EventRepo eventRepo;
+    @Autowired
+    TagServiceImpl tagService;
 
     public void run(String... args) throws Exception {
 
         userRepo.deleteAllInBatch();
         roleRepo.deleteAllInBatch();
-
-        User user = User.builder()
-                .login("user")
-                .password("password")
-                .build();
 
         Role role = Role.builder()
                 .roleName("ADMIN")
@@ -66,22 +72,37 @@ public class Bootstrap implements CommandLineRunner {
                 .build();
         PlaceTag placeTag1 = PlaceTag.builder()
                 .name("basketball playground").build();
-        placeTagRepo.save(placeTag);
-        placeTagRepo.save(placeTag1);
+        Place place = Place.builder()
+                .name("Jordan basketball playground").build();
+        Set<PlaceTag> placeTags = new HashSet<>();
+        placeTags.add(placeTag);
+        placeTags.add(placeTag1);
+        place.setPlaceTags(placeTags);
+        Set<Place> places = new HashSet<>();
+        places.add(place);
+        placeTag.setPlaces(places);
+        placeTag1.setPlaces(places);
+        placeRepo.save(place);
+        Set<String> tagNames = new HashSet<>();
+        tagNames.add("sport");
+        tagNames.add("sport");
+        Tag tag2 = tagService.getByName("sport");
 
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role);
-//        roles.add(role1);
-//
-//        user.setRoles(roles);
-//
-//        Set<User> users = new HashSet<>();
-//        users.add(user);
-//
-//        role.setUsers(users);
-//        role1.setUsers(users);
-//
-//        userRepo.save(user);
+//        EventDTO eventDTO = EventDTO.builder()
+//                .date(new Date())
+//                .description("fuck you")
+//                .picture("no pic")
+//                .video("no vid")
+//                .name("fiba 3x3")
+//                .tags(tagNames).build();
+//        eventService.create(eventDTO);
+//        UserDTO userDTO = UserDTO.builder()
+//                .login("user")
+//                .password("password")
+//                .email("user@gmail.com")
+//                .telephone("0111222333")
+//                .build();
+//        userService.create(userDTO);
 
     }
 }
