@@ -1,7 +1,9 @@
 package com.company.eventApp.service;//package com.company.eventApp.service;
 
 import com.company.eventApp.dto.TagDTO;
-import com.company.eventApp.entity.*;
+import com.company.eventApp.entity.Event;
+import com.company.eventApp.entity.Place;
+import com.company.eventApp.entity.Tag;
 import com.company.eventApp.enums.Status;
 import com.company.eventApp.dto.EventDTO;
 import com.company.eventApp.repository.EventRepo;
@@ -23,32 +25,33 @@ public class EventServiceImpl implements EventService {
     private UserServiceImpl userService;
 
     @Autowired
-    private PlaceServiceImpl placeService;
+    PlaceServiceImpl placeService;
 
     @Override
     public Event create(EventDTO eventDTO) throws Exception {
         Place place = placeService.getByName(eventDTO.getPlace());
         Event event = Event.builder()
+                .date(eventDTO.getDate())
                 .description(eventDTO.getDescription())
+                .picture(eventDTO.getPicture())
+                .video(eventDTO.getVideo())
                 .status(Status.PLANNED)
                 .name(eventDTO.getName())
-                .place(place)
                 .user(userService.getById(eventDTO.getUserId()))
                 .build();
-        Set<Tag> tags = new HashSet<>();
         Set<TagDTO> tagDTOs = eventDTO.getTagDTOs();
+        Set<Tag> tags = new HashSet<>();
         for (TagDTO tagDTO : tagDTOs){
             tags.add(tagService.getByName(tagDTO.getName()));
         }
         event.setTags(tags);
         Set<Event> events = new HashSet<>();
         events.add(event);
-        for (Tag tag : tags){
+        for(Tag tag : tags){
             if(tag.getEvents() == null){
                 tag.setEvents(events);
             }
             else {
-                System.out.println(tag.getEvents());
                 tag.getEvents().add(event);
             }
         }
@@ -67,11 +70,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event update(Event entity) {
-        return eventRepo.save(entity);
-    }
-
-    @Override
     public List<Event> getAll() {
         return eventRepo.findAll();
     }
@@ -79,5 +77,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public void delete(Long id) {
         eventRepo.deleteById(id);
+    }
+
+    @Override
+    public Event update(Event entity) {
+        return eventRepo.save(entity);
     }
 }

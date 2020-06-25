@@ -26,7 +26,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Place create(PlaceDTO placeDTO) throws Exception {
-        User user = userService.getById(placeDTO.getId());
+        User user = userService.getById(placeDTO.getUserId());
         Place place = Place.builder()
                 .name(placeDTO.getName())
                 .address(placeDTO.getAddress())
@@ -34,10 +34,10 @@ public class PlaceServiceImpl implements PlaceService {
                 .address(placeDTO.getAddress())
                 .user(user)
                 .build();
-        Set<String> placeTagNames = new HashSet<>();
+        Set<PlaceTagDTO> placeTagDTOs = placeDTO.getPlaceTags();
         Set<PlaceTag> placeTags = new HashSet<>();
-        for(String s : placeTagNames){
-            placeTags.add(placeTagService.getByName(s));
+        for(PlaceTagDTO placeTagDTO : placeTagDTOs){
+            placeTags.add(placeTagService.getByName(placeTagDTO.getName()));
         }
         place.setPlaceTags(placeTags);
         Set<Place> places = new HashSet<>();

@@ -16,7 +16,7 @@ import java.util.Set;
 public class PlaceDTO {
     Long id;
     String name;
-    Set<String> placeTags;
+    Set<PlaceTagDTO> placeTags;
     String address;
     BigDecimal rentalPrice;
     Long userId;
