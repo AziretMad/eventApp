@@ -12,7 +12,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
 <script src="js/jquery.min.js"></script>
-<script src="js/jquery.easydropdown.js"></script>
+	<script src="js/user.js"></script>>
+<!--<script src="js/jquery.easydropdown.js"></script>-->
 <script>$(document).ready(function(c) {
 	$('.alert-close').on('click', function(c){
 		$('.message').fadeOut('slow', function(c){
@@ -107,7 +108,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="header-bottom">
 	<div class="container">
 		<div class="logo">
-			<a href="index.html"><img src="images/logo.png" class="img-responsive" alt=""></a>
+<!--			<a href="index.html"><img src="images/logo.png" class="img-responsive" alt=""></a>-->
 		</div>
 		<div class="search2">
 					  <form>
@@ -141,15 +142,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<p>If you have an account with us, please log in.</p>
 					<form>
 						<div>
-							<span>Email Address<label>*</label></span>
-							<input type="text">
+							<span>Login<label>*</label></span>
+							<input type="text" id="login-value">
 						</div>
 						<div>
 							<span>Password<label>*</label></span>
-							<input type="password">
+							<input type="password" id="password-value">
 						</div>
 						<a class="forgot" href="#">Forgot Your Password?</a>
-						<input type="submit" value="Login">
+						<button type="button" onclick="SignIn()" value="submit">Submit</button>
 					</form>
 			   </div>
 				<div class="clearfix"> </div>
@@ -203,7 +204,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<input type="text" class="textbox" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
 						<textarea value="Message:" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message..</textarea>
 						 <div class="smt">
-							<input type="submit" value="send">
+							<input type="submit" value="send" onclick="SignIn()">
 						 </div>
 					</form>
 			      </div>

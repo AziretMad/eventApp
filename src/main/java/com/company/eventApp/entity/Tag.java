@@ -32,4 +32,6 @@ public class Tag {
             mappedBy = "tags")
     @JsonBackReference
     Set<Event> events = new HashSet<>();
+
+
 }

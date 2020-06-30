@@ -1,5 +1,6 @@
 package com.company.eventApp.service;
 
+import com.company.eventApp.entity.Event;
 import com.company.eventApp.entity.Role;
 import com.company.eventApp.entity.User;
 import com.company.eventApp.dto.UserDTO;
@@ -13,7 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -111,5 +117,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     public User getByLogin(String login){
         return userRepo.findByLogin(login);
+    }
+
+    public User addAvatar(Long id, MultipartFile picture) throws IOException {
+        User user = getById(id);
+        String avatar = getModifiedName(picture);
+        user.setAvatar(avatar);
+        return userRepo.save(user);
+    }
+
+    private String getModifiedName(MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        String modifiedFileName = System.currentTimeMillis() + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4);
+        Path path = Paths.get("C:\\Users\\admin-pc\\Desktop\\Site\\" + modifiedFileName);
+        Files.write(path, bytes);
+        return "http://localhost/img/" + modifiedFileName;
     }
 }

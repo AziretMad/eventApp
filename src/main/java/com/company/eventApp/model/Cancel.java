@@ -1,16 +1,15 @@
-package com.company.eventApp.jwt;
+package com.company.eventApp.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LoginUser {
-    String login;
-    String password;
+public class Cancel {
+    Long eventId;
+    String reason;
 }

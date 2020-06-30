@@ -65,8 +65,24 @@ public class Bootstrap implements CommandLineRunner {
         Tag tag1 = Tag.builder()
                 .name("basketball")
                 .build();
+        Tag tag2 = Tag.builder()
+                .name("music").build();
+        Tag tag3 = Tag.builder()
+                .name("punk rock").build();
+        Tag tag4 = Tag.builder()
+                .name("grunge").build();
+        Tag tag5 = Tag.builder()
+                .name("alternative hip hop").build();
+        Tag tag6 = Tag.builder().name("hip hop").build();
+        Tag tag7 = Tag.builder().name("rap rock").build();
         tagRepo.save(tag);
         tagRepo.save(tag1);
+        tagRepo.save(tag2);
+        tagRepo.save(tag3);
+        tagRepo.save(tag4);
+        tagRepo.save(tag5);
+        tagRepo.save(tag6);
+        tagRepo.save(tag7);
         PlaceTag placeTag = PlaceTag.builder()
                 .name("sports ground")
                 .build();
@@ -74,6 +90,23 @@ public class Bootstrap implements CommandLineRunner {
                 .name("basketball playground").build();
         Place place = Place.builder()
                 .name("Jordan basketball playground").build();
+        PlaceTag placeTag2 = PlaceTag.builder()
+                .name("concert hall")
+                .build();
+        PlaceTag placeTag3 = PlaceTag.builder()
+                .name("bar").build();
+        Place place1 = Place.builder()
+                .name("night witch")
+                .address("garden avenue 321").build();
+        Set<PlaceTag> placeTags1 = new HashSet<>();
+        placeTags1.add(placeTag2);
+        placeTags1.add(placeTag3);
+        place1.setPlaceTags(placeTags1);
+        Set<Place> placeSet = new HashSet<>();
+        placeSet.add(place1);
+        placeTag2.setPlaces(placeSet);
+        placeTag3.setPlaces(placeSet);
+        placeRepo.save(place1);
         Set<PlaceTag> placeTags = new HashSet<>();
         placeTags.add(placeTag);
         placeTags.add(placeTag1);
@@ -86,7 +119,6 @@ public class Bootstrap implements CommandLineRunner {
         Set<String> tagNames = new HashSet<>();
         tagNames.add("sport");
         tagNames.add("sport");
-        Tag tag2 = tagService.getByName("sport");
 
 //        EventDTO eventDTO = EventDTO.builder()
 //                .date(new Date())

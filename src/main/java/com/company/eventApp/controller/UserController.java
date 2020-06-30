@@ -46,6 +46,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @PostMapping("/signup")
     public ResponseEntity create(@RequestBody UserDTO userDTO){
         try {

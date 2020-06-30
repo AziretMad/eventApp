@@ -11,6 +11,9 @@ import java.util.List;
 
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
-    @Query("select event from Event event where event.date>=:date")
-    List<Event> getSoonEvents(@Param("date") Date date);
+    @Query("select event from Event event where event.date > current_date order by event.date asc ")
+    List<Event> getSoonEvents();
+
+    @Query("select event from Event event where event.user.login = :login ")
+    List<Event> getAllByUserLogin(@Param("login") String login);
 }

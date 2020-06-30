@@ -6,11 +6,20 @@ import com.company.eventApp.entity.Place;
 import com.company.eventApp.entity.Tag;
 import com.company.eventApp.enums.Status;
 import com.company.eventApp.dto.EventDTO;
+import com.company.eventApp.model.Cancel;
+import com.company.eventApp.model.MovedDate;
 import com.company.eventApp.repository.EventRepo;
 import com.company.eventApp.service.interfaces.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -31,14 +40,20 @@ public class EventServiceImpl implements EventService {
     public Event create(EventDTO eventDTO) throws Exception {
         Place place = placeService.getByName(eventDTO.getPlace());
         Event event = Event.builder()
-                .date(eventDTO.getDate())
                 .description(eventDTO.getDescription())
-                .picture(eventDTO.getPicture())
-                .video(eventDTO.getVideo())
                 .status(Status.PLANNED)
                 .name(eventDTO.getName())
+                .place(place)
                 .user(userService.getById(eventDTO.getUserId()))
                 .build();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = simpleDateFormat.parse(eventDTO.getDate());
+            event.setDate(date);
+        }
+        catch (ParseException e){
+            System.out.println(e.getErrorOffset());
+        }
         Set<TagDTO> tagDTOs = eventDTO.getTagDTOs();
         Set<Tag> tags = new HashSet<>();
         for (TagDTO tagDTO : tagDTOs){
@@ -58,9 +73,55 @@ public class EventServiceImpl implements EventService {
         return eventRepo.save(event);
     }
 
+    public Event addImage(Long id, MultipartFile picture) throws IOException {
+        Event event = getById(id);
+        String pict = getModifiedName(picture);
+        event.setPicture(pict);
+        return eventRepo.save(event);
+    }
+
+    private String getModifiedName(MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        String modifiedFileName = System.currentTimeMillis() + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4);
+        Path path = Paths.get("C:\\Users\\admin-pc\\Desktop\\Site\\" + modifiedFileName);
+        Files.write(path, bytes);
+        return modifiedFileName;
+    }
+
+    public Event moveDate(MovedDate movedDate){
+        if(movedDate.getReason() == null){
+            movedDate.setReason("НЕ УКАЗАНО");
+        }
+        Event event = getById(movedDate.getEventId());
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = simpleDateFormat.parse(movedDate.getDate());
+            event.setDate(date);
+        }
+        catch (ParseException e){
+            System.out.println(e.getErrorOffset());
+        }
+        event.setDescription(event.getDescription()
+        + " ПЕРЕНЕСОНО "
+        + "ПРИЧИНА: " + movedDate.getReason());
+        event.setStatus(Status.MOVED);
+        return eventRepo.save(event);
+    }
+
+    public Event cancel(Cancel cancel){
+        if(cancel.getReason() == null){
+            cancel.setReason("НЕ УКАЗАНО");
+        }
+        Event event = getById(cancel.getEventId());
+        event.setStatus(Status.CANCELLED);
+        event.setDescription(event.getDescription()
+                + " ОТМЕНЕНО "
+                + "ПРИЧИНА: " + cancel.getReason());
+        return eventRepo.save(event);
+    }
+
     public List<Event> getSoonEvents(){
-        Date date = new Date();
-        return eventRepo.getSoonEvents(date);
+        return eventRepo.getSoonEvents();
     }
 
     @Override
